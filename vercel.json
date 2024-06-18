@@ -1,5 +1,29 @@
 {
-	"version": 2,
-	"rewrites": [{ "source": "/(.*)", "destination": "/index.js" }],
+	"builds": [
+	  {
+		"src": "index.js",
+		"use": "@vercel/node",
+		"config": {
+		  "includeFiles": [
+			"node_modules/geoip-lite/data/geoip-country.dat",
+			"node_modules/geoip-lite/data/geoip-country6.dat",
+			"node_modules/geoip-lite/data/geoip-city.dat",
+			"node_modules/geoip-lite/data/geoip-city6.dat",
+			"node_modules/geoip-lite/data/geoip-asn.dat",
+			"node_modules/geoip-lite/data/geoip-asn6.dat"
+		  ],
+		  "includeNodeModules": true,  
+		  "functions": {
+			"includeDependencies": true  
+		  }
+		}
+	  }
+	],
+	"routes": [
+	  {
+		"src": "/(.*)",
+		"dest": "/index.js"
+	  }
+	]
   }
   
