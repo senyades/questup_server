@@ -87,6 +87,36 @@ class testController
 
       }
 
+      async updateBlocedStatusForUser(req, res)
+      {
+        const {testId, isBlocked} = req.body;
+        const accessToken = req.headers.authorization.split(' ')[1];
+        console.log(testId, isBlocked)
+        try{
+         
+          // Расшифровываем токен, чтобы получить информацию о пользователе
+          const decodedToken = jwt.verify(accessToken, process.env.ACESS_TOKEN_SECRET);
+          const userId = decodedToken.id; // Предположим, что идентификатор пользователя хранится в полезной нагрузке токена
+  
+          const result = await db.query('SELECT test_info FROM user_and_test WHERE id = $1', [userId]);
+          const testInfo = result.rows[0].test_info;
+          testInfo[testId-1].blocked = isBlocked;
+          const updatedTestInfo = JSON.stringify(testInfo);
+        
+          // Обновляем информацию о тесте для пользователя
+          await db.query('UPDATE user_and_test SET test_info = $1 WHERE id = $2', [updatedTestInfo, userId]);
+          res.status(200).json({ message: `Данные обновлены`} );
+        }
+        catch
+        {
+          console.error("Ошибка при обновлении данных", error);
+          res.status(500).json({ error: 'Internal Server Error' });
+
+        }
+       
+        
+      }
+
 
       async getLevelList(req, res) {
         try {
@@ -165,6 +195,37 @@ class testController
           res.status(500).json({ error: 'Internal Server Error' });
         }
       }  
+
+
+      async updateViewStatus(req, res)
+      {
+        const {testId, isView} = req.body;
+        const accessToken = req.headers.authorization.split(' ')[1];
+        console.log(testId, isView)
+        try{
+         
+          // Расшифровываем токен, чтобы получить информацию о пользователе
+          const decodedToken = jwt.verify(accessToken, process.env.ACESS_TOKEN_SECRET);
+          const userId = decodedToken.id; // Предположим, что идентификатор пользователя хранится в полезной нагрузке токена
+  
+          const result = await db.query('SELECT test_info FROM user_and_test WHERE id = $1', [userId]);
+          const testInfo = result.rows[0].test_info;
+          testInfo[testId-1].view = isView;
+          const updatedTestInfo = JSON.stringify(testInfo);
+        
+          // Обновляем информацию о тесте для пользователя
+          await db.query('UPDATE user_and_test SET test_info = $1 WHERE id = $2', [updatedTestInfo, userId]);
+          res.status(200).json({ message: `Данные обновлены`} );
+        }
+        catch
+        {
+          console.error("Ошибка при обновлении данных", error);
+          res.status(500).json({ error: 'Internal Server Error' });
+
+        }
+       
+        
+      }
 
 
 }

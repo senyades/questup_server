@@ -69,6 +69,8 @@ class UserController
         await db.query('DELETE FROM inventory WHERE id = $1', [userId]);
         await db.query('DELETE FROM decoration WHERE id = $1', [userId]);
         await db.query('DELETE FROM user_and_test WHERE id = $1', [userId]);
+        await db.query('DELETE FROM level_list WHERE id = $1', [userId]);
+        await db.query('DELETE FROM achiv_list WHERE id = $1', [userId]);
         await db.query('DELETE FROM users WHERE id = $1', [userId]);
         res.status(200).json({ message: 'Пользователь успешно удален и связанные записи тоже удалены' });
     } catch (error) {

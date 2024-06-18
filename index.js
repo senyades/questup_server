@@ -8,12 +8,12 @@ const TokenService = require('./services/token');
 const ResourceRouter = require('./routes/resource.routes')
 
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
 const app = express()
 const corsOptions = {
-    origin: 'http://localhost:3000', // Укажите источник вашего React-приложения
-    credentials: true, // Разрешение использования куки
+  origin: 'https://questup-app.vercel.app',
+  credentials: true // Разрешение использования куки
   }
   
 app.use(cors(corsOptions));
@@ -29,8 +29,11 @@ app.use(
 app.use('/user', userRouter);
 app.use('/resource', ResourceRouter);
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 
 
 
 app.listen(PORT, ()=>console.log(`server started on post ${PORT}`))
+
+module.exports = app;

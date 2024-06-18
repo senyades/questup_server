@@ -16,6 +16,8 @@ router.post("/delete_user",TokenService.checkAccess, UserController.deleteUser);
 router.get('/get_test_list', TokenService.checkAccess, testController.getTestList)
 router.post('/update_thema', TokenService.checkAccess, testController.updatedTheme)
 router.post('/update_blocked', TokenService.checkAccess, testController.updateBlockedStatus)
+router.post('/update_blocked_for_user', TokenService.checkAccess, testController.updateBlocedStatusForUser)
+router.post('/update_view_status', TokenService.checkAccess, testController.updateViewStatus)
 
 router.get('/quantity_test', TokenService.checkAccess, testController.QuantityTest)
 router.get('/get_users',TokenService.checkAccess, UserController.getUsers)
